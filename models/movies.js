@@ -6,32 +6,23 @@ const moviesSchema = new mongoose.Schema(
     country: {
       type: String,
       required: [true, 'поле должно быть заполнено'],
-      minlength: [2, 'чувак , минимум 2 символа'],
-      maxlength: [30, 'чувак , максимум 30 символов'],
     },
     director: {
       type: String,
       required: [true, 'поле должно быть заполнено'],
-      minlength: [2, 'чувак , минимум 2 символа'],
-      maxlength: [30, 'чувак , максимум 30 символов'],
+
     },
     duration: {
       type: Number,
       required: [true, 'поле должно быть заполнено'],
-      minlength: [2, 'чувак , минимум 2 символа'],
-      maxlength: [30, 'чувак , максимум 30 символов'],
     },
     year: {
       type: String,
       required: [true, 'поле должно быть заполнено'],
-      minlength: [2, 'чувак , минимум 2 символа'],
-      maxlength: [30, 'чувак , максимум 30 символов'],
     },
     description: {
       type: String,
       required: [true, 'поле должно быть заполнено'],
-      minlength: [2, 'чувак , минимум 2 символа'],
-      maxlength: [300, 'чувак , максимум 300 символов'],
     },
     image: {
       type: String,
