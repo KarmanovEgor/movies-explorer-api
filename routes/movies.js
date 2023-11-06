@@ -2,7 +2,6 @@ const router = require('express').Router();
 const { celebrate, Joi } = require('celebrate');
 const validator = require('validator');
 const { createMovie, getMovie, deleteMovie } = require('../controllers/movies');
-// const { urlValid } = require('../utils/validCheck');
 const BadRequestError = require('../errors/BadRequestError');
 
 router.get('/', getMovie);
