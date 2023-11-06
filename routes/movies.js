@@ -1,11 +1,12 @@
 const router = require('express').Router();
 const { celebrate, Joi } = require('celebrate');
-const { urlValid } = require('../utils/validCheck');
+
 const {
   createMovie,
   getMovie,
   deleteMovie,
 } = require('../controllers/movies');
+const { urlValid } = require('../utils/validCheck');
 
 router.get('/', getMovie);
 router.delete('/:movieId', celebrate({
