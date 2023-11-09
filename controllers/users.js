@@ -41,8 +41,19 @@ module.exports.editUser = (req, res, next) => {
   const { name, email } = req.body;
   const { _id } = req.user;
 
-  User.findByIdAndUpdate(_id, { name, email }, { new: true, runValidators: true })
-    .orFail()
+  User.findOne({ email }) // Проверяем, существует ли уже пользователь с указанным адресом почты
+    .then((existingUser) => {
+      if (existingUser && existingUser._id.toString() !== _id) {
+        // Если пользователь существует и его _id не совпадает с _id текущего пользователя,
+        // возвращаем ошибку 409
+        throw new ConflictError('Адрес почты уже зарегистрирован другим пользователем');
+      } else {
+        // Если пользователь не существует или его _id совпадает с _id текущего пользователя,
+        // обновляем данные пользователя
+        return User.findByIdAndUpdate(_id, { name, email }, { new: true, runValidators: true })
+          .orFail();
+      }
+    })
     .then((user) => {
       res.send(user);
     })
@@ -51,6 +62,9 @@ module.exports.editUser = (req, res, next) => {
         next(new BadRequestError(err.message));
       } else if (err instanceof mongoose.Error.DocumentNotFoundError) {
         next(new NotFoundError('Пользователь по указанному идентификатору не найден'));
+      } else if (err instanceof ConflictError) {
+        // Обрабатываем ошибку 409 и отправляем соответствующее сообщение
+        res.status(409).json({ message: err.message });
       } else {
         next(err);
       }
